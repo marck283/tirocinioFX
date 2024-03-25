@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="it.disi.unitn.lasagna.tirociniofx.HelloController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+   <Pane prefHeight="200.0" prefWidth="200.0">
+      <children>
+         <VBox prefHeight="200.0" prefWidth="200.0">
+            <children>
+               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                  <children>
+                     <Label alignment="CENTER" text="Codec:" />
+                  </children>
+               </HBox>
+               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                  <children>
+                     <ChoiceBox fx:id="codecBox" prefWidth="150.0" />
+                  </children>
+               </HBox>
+            </children>
+         </VBox>
+      </children>
+   </Pane>
+
+    <Label fx:id="welcomeText" />
+    <Button alignment="BOTTOM_CENTER" onAction="#onHelloButtonClick" text="Start!" />
+</VBox>
