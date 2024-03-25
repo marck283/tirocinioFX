@@ -6,8 +6,8 @@ plugins {
     id 'org.beryx.jlink' version '2.25.0'
 }
 
-group 'com.example'
-version '1.0-SNAPSHOT'
+group 'it.disi.unitn'
+version '1.0'
 
 repositories {
     mavenCentral()
