@@ -51,6 +51,11 @@ dependencies {
     implementation 'org.apache.commons:commons-exec:1.4.0'
     implementation 'it.disi.unitn.ffmpeg:ffmpeg-java-id:1.1.17' //Ultima versione
     implementation 'org.apache.commons:commons-lang3:3.14.0'
+    implementation 'commons-io:commons-io:2.15.1'
+
+    // https://mvnrepository.com/artifact/commons-codec/commons-codec
+    implementation 'commons-codec:commons-codec:1.16.1'
+
 }
 
 test {

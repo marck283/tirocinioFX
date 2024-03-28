@@ -5,12 +5,9 @@ import it.disi.unitn.lasagna.tirociniofx.supportedcodecs.VideoCodecs;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.stage.FileChooser;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 
@@ -42,7 +39,9 @@ public class HelloApplication extends Application {
     @Override
     public void start(@NotNull Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1280, 960);
+        Parent root = fxmlLoader.load();
+        HelloController helloController = fxmlLoader.getController();
+        Scene scene = new Scene(root, 1280, 960);
 
         Locale l = Locale.getDefault();
         CheckBox ffmpegVersionCheckBox = (CheckBox)scene.getRoot().lookup("#ffmpegVersionCheckBox"),
@@ -74,25 +73,40 @@ public class HelloApplication extends Application {
             img_ext_label.setText("Image extension:");
             file_chooser_button.setText("Choose picture...");
         }
-        file_chooser_button.setOnMousePressed(e -> {
-            System.out.println("OK!");
-            FileChooser chooser = new FileChooser();
-            if(l == Locale.ITALIAN || l == Locale.ITALY) {
-                chooser.setTitle("Scegli un'immagine...");
-                chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Tutte le immagini...", "*.*"));
-            } else {
-                chooser.setTitle("Choose a picture...");
-                chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("All Images", "*.*"));
-            }
-            chooser.getExtensionFilters().addAll(
-                    new FileChooser.ExtensionFilter("JPG", "*.jpg"),
-                    new FileChooser.ExtensionFilter("PNG", "*.png")
-            );
-            chooser.showOpenDialog(stage);
-        });
 
         ChoiceBox<String> videoCodecChoice = (ChoiceBox<String>)scene.getRoot().lookup("#codecChoice"),
         audioCodecChoice = (ChoiceBox<String>)scene.getRoot().lookup("#acodecChoice");
+
+        videoCodecChoice.getSelectionModel().selectedIndexProperty().addListener((cl, i, ni) -> {
+            int newInt = ni.intValue();
+            String res = "";
+            if(newInt >= 0) {
+                res = videoCodecChoice.getItems().get(newInt);
+            }
+            helloController.videoCodecChosen(res);
+        });
+
+        audioCodecChoice.getSelectionModel().selectedIndexProperty().addListener((cl, i, ni) -> {
+            int newInt = ni.intValue();
+            String res = "";
+            if(newInt >= 0) {
+                res = audioCodecChoice.getItems().get(newInt);
+            }
+            helloController.audioCodecChosen(res);
+        });
+
+        TextField pix_fmt_text_field = (TextField)scene.getRoot().lookup("#pix_fmt_text");
+        pix_fmt_text_field.textProperty().addListener((cl, old, newv) -> helloController.pix_fmt_chosen(newv));
+
+        TextField img_ext_field = (TextField)scene.getRoot().lookup("#img_ext_text");
+        img_ext_field.textProperty().addListener((cl, old, newv) -> helloController.setImgExt(newv));
+
+        TextField tts_text_field = (TextField)scene.getRoot().lookup("#tts_text");
+        tts_text_field.textProperty().addListener((cl, old, newv) -> helloController.setTTSText(newv));
+
+        TextField language_field = (TextField)scene.getRoot().lookup("#language");
+        language_field.textProperty().addListener((cl, old, newv) -> helloController.setLanguage(newv));
+
         ffmpegVersionCheckBox.setOnMouseClicked(e -> {
             if(ffmpegVersionCheckBox.isSelected()) {
                 VideoCodecs videoCodecs = new VideoCodecs(videoCodecChoice);
